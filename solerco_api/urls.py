@@ -18,8 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 from routers import router
+from user.urls import urlpatterns as user_urlpatterns 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('api/', include((router.urls, 'solerco_api'), namespace='solerco_api')),
 ]
+
+urlpatterns += user_urlpatterns
