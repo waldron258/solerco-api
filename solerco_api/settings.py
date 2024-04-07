@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 import environ
 # Initialise environment variables
@@ -33,9 +34,16 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        # 'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'SEARCH_PARAM':'q'
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
 }
 
 
@@ -55,12 +63,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
      #third apps
-    "rest_framework",
-    "corsheaders",
+    'rest_framework',
+    'corsheaders',
+    "django_filters",
 
     # installed apps
-    "carousel",
-    "user"
+    'carousel',
+    'user',
+    'inventory'
 ]
 
 MIDDLEWARE = [
@@ -127,6 +137,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Tiempo de vida del token de acceso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Tiempo de vida del token de actualización
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
